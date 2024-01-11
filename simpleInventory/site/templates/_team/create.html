@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Create team{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Create team</h1>
+        <form action="{{ url_for('site.teams_site.createTeamSite') }}" method="post">
+            <label for="teamID">team ID:</label>
+            <input type="number" id="teamID" name="teamID" value="{{ form_data['teamID'] }}" required>
+            <br>
+            <label for="name">team Name:</label>
+            <input type="text" id="name" name="name" value="{{ form_data['name'] }}">
+            <br>
+            <input type="submit" value="Create team">
+        </form>
+        
+        {% if error_message %}
+            <div class="error-message">
+                {{ error_message }}
+            </div>
+        {% endif %}
+        <br>
+        <a href="{{ url_for('site.teams_site.showAllTeams') }}">Back to team List</a>
+    </div>
+{% endblock %}

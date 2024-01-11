@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Task{% endblock %}
+
+{% block content %}
+<div class="page-div">
+    <h1>Edit Task {{ task.taskID }}</h1>
+    <div>
+        <form action="{{ url_for('site.tasks_site.updateTask', taskID=task.taskID) }}" method="post">
+            <label for="name">Task Name:</label>
+            <input type="text" id="name" name="name" value="{{ task.name }}">
+            <br>
+            <label for="description">Task Description:</label>
+            <textarea id="description" name="description">{{ task.description }}</textarea>
+            <br>
+            <div class="row" style="width: 50%;">
+                <div class="col" style="width: 50%; float: left;">
+                    <label for="status">Current Status:</label>
+                    <div class="statusfield {% if task.status == 'Created' %}status-created{% elif task.status == 'Assigned' %}status-assigned{% elif task.status == 'Work in Progress' %}status-work-in-progress{% elif task.status == 'Done' %}status-done{% elif task.status == 'Failed' %}status-failed{% endif %}">
+                        <p>{{ task.status }}</p> <!-- Display the current status -->
+                    </div>
+                </div>
+                <div class="col" style="margin-left: 50%;">
+                    <label for="new_status">Select New Status:</label>
+                    <select id="new_status" name="new_status", style="font-size: larger;">
+                        <option value="1" {% if task.status == 'Created' %}selected{% endif %}>Created</option>
+                        <option value="2" {% if task.status == 'Assigned' %}selected{% endif %}>Assigned</option>
+                        <option value="3" {% if task.status == 'Work in Progress' %}selected{% endif %}>Work in Progress</option>
+                        <option value="4" {% if task.status == 'Done' %}selected{% endif %}>Done</option>
+                        <option value="5" {% if task.status == 'Failed' %}selected{% endif %}>Failed</option>
+                    </select>
+                </div>
+            </div>
+            
+            <br>
+            <input type="submit" value="Update Task">
+        </form>
+    </div>
+    <div class="page-div">
+        <details>
+            <summary>Danger Zone</summary>
+            <form action="{{ url_for('site.tasks_site.deleteTaskSite', taskID=task.taskID) }}" method="post">
+                <input style="background-color: red;" type="submit" value="Delete Task">
+            </form>
+        </details>
+    </div>
+</div>
+{% endblock %}

@@ -1,1 +1,1 @@
-# simple-inventory
+# simpleInventory

@@ -1,0 +1,202 @@
+/* static/styles.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+h1 {
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+
+th {
+    background-color: #f2f2f2;
+}
+
+form {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    font-size: x-large;
+}
+
+input[type="submit"] {
+    background-color: #4caf50;
+    margin-top: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.tasklink {
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    padding: 2em;
+    margin: -2em;
+  }
+
+.tasklink a:hover {
+    background-color: #4caf50;
+    color: aqua;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+    width: 100%;
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.taskUpdate {
+    width: fit-content;
+    padding: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 0px;
+    box-sizing: content-box;
+    font-size: medium;
+}
+
+.status-created {
+    color: blue; /* Change the color based on your preference */
+}
+.status-assigned {
+    color: green;
+}
+.status-work-in-progress {
+    color: orange;
+}
+.status-done {
+    color: purple;
+}
+.status-failed {
+    color: red;
+}
+
+.statusfield {
+    font-weight: bold;
+    width: fit-content;
+}
+
+.row {
+    display: flex; /* equal height of the children */
+}
+  
+.col {
+    flex: 1; /* additionally, equal width */
+
+    padding: 1em;
+}
+
+.form-inline {  
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+  }
+  
+  .form-inline label {
+    margin: 5px 10px 5px 0;
+  }
+  
+  .form-inline input {
+    vertical-align: middle;
+    margin: 1% 1% 1% 1%;
+
+  }
+  
+.page-div {
+    margin: 1%;
+}
+
+
+.error-message {
+    background-color: #f8d7da; /* Light red background */
+    color: #721c24; /* Dark red text color */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #f5c6cb; /* Dark red border */
+    border-radius: 5px;
+    margin: 1%;
+}
+
+/* Add this to your CSS */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}

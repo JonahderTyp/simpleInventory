@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Task List{% endblock %}
+
+{% block content %}
+<div class="navbar">
+    <a href="{{ url_for('site.tasks_site.createTaskSite') }}">Create New</a>
+</div>
+<div class="page-div">
+    <h1>Tasks</h1>
+    <table style="width: 100%;">
+        <thead>
+            <tr>
+                <th style="width: 5%;">Task ID</th>
+                <th style="width: 20%;">Name</th>
+                <th style="width: 25%;">Description</th>
+                <th style="width: 10%;">Team</th>
+                <th style="width: 10%;">Status</th>
+                <th style="width: 10%;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td><a class="tasklink" href="{{ url_for('site.tasks_site.specificTask', taskID=task.taskID) }}">{{ task.taskID }}</a></td>
+                    <td>{{ task.name }}</td>
+                    <td>
+                        {% autoescape false %}
+                        {{ task.description }}
+                        {% endautoescape %}
+                    </td>
+                    <td>
+                        <div style="width: 100%;">
+                            <div style="width: 30%; height: fit-content; float: left;">
+                                {{ task.teamName }}
+                            </div>
+                            <div style="margin-left: 30%; height: fit-content;">
+                                
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="{% if task.status == 'Created' %}status-created{% elif task.status == 'Assigned' %}status-assigned{% elif task.status == 'Work in Progress' %}status-work-in-progress{% elif task.status == 'Done' %}status-done{% elif task.status == 'Failed' %}status-failed{% endif %}">
+                            {{ task.status }}
+                        </div>
+                        <div>
+                            {{ task.statustimestamp }}
+                        </div>
+                        <div>
+                            {{ task.statusText }}
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <a href="{{ url_for('site.tasks_site.editTask', taskID=task.taskID) }}">Edit</a>
+                        </div>
+                        <div>
+                            <form class="form-inline" method="POST" action="{{ url_for('site.tasks_site.assignTaskSite', taskID=task.taskID) }}">
+                                <label for="team">Assign to Team:</label>
+                                <select name="team" id="team">
+                                    <option {% if task.teamID is none %}selected{% endif %}>None</option>
+                                    {% for team in teams %}
+                                        <option value="{{ team.teamID }}" {% if task.teamID == team.teamID %}selected{% endif %}>({{ team.teamID }}) {{ team.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <input class="taskUpdate" type="submit" value="Assign">
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p style="text-align: center;">end of list</p>
+</div>
+{% endblock %}
