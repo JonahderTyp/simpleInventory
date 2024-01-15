@@ -2,8 +2,16 @@ from flask import Flask
 from pathlib import Path
 from .site import site
 #from .api import api
+from sqlalchemy.schema import CreateTable
+import logging
+
+def print_sql_creation_script(db):
+    engine = db.get_engine()
+    for table in db.Model.metadata.tables.values():
+        print(CreateTable(table).compile(engine))
 
 print("Hello from Init Script")
+logging.basicConfig(level=logging.DEBUG)
 
 def create_app():
 
@@ -28,6 +36,7 @@ def create_app():
 
     if NEW_DB:
         with app.app_context():
+            print_sql_creation_script(db)
             app.logger.info(f"Seeding database at {db_path.absolute()}")
             db.create_all()
             seeds_path = app.config.get("FLASK_DB_SEEDS_PATH")

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Storage{% endblock %}
+
+{% block content %}
+<div class="navbar">
+    <a href="{{ url_for('site.storage.create' , storageID=parent.id) }}">Create New</a>
+</div>
+<div>
+    <div>
+        <h1>{{ parent.name }}</h1>
+        
+    </div>
+    <div>
+        <h1>Children:</h1>
+        {% for storage in children%}
+        <a href="{{ url_for('site.storage.showID', storageID=storage.id) }}">
+            <div class="storage-div">
+                <h1>
+                    {{ storage.name }}
+                </h1>
+                <p>
+                    {{ storage.id }}
+                </p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -8,7 +8,7 @@ import time
 from datetime import datetime
 
 
-overview_site = Blueprint("overview_site", __name__, template_folder="../templates/overview", url_prefix="/overview")
+overview_site = Blueprint("overview", __name__, template_folder="../templates/overview", url_prefix="/overview")
 
 @overview_site.route("/")
 def showOverview():

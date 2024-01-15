@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Storage{% endblock %}
+
+{% block content %}
+<div class="navbar">
+    <a href="{{ url_for('site.storage.create') }}">Create New</a>
+</div>
+<div>
+    {% for storage in grandStorage %}
+    <a href="{{ url_for('site.storage.showID', storageID=storage.id) }}">
+        <div class="storage-div">
+            <h1>
+                {{ storage.name }}
+                {{ storage.id }}
+            </h1>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

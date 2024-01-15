@@ -200,3 +200,17 @@ input[type="submit"] {
     border-radius: 5px;
     text-align: center;
 }
+
+.storage-div {
+    background-color: #4caf50;
+    margin: 10px;
+    padding: 1em;
+    display: inline-block;
+}
+
+a.fill-div {
+    display: block;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+}
