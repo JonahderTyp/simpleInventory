@@ -30,3 +30,25 @@ def getStorageByID(storage_id):
     # Query the database for the Storage object with the specified id
     storage = Storage.query.filter_by(id=storage_id).first()
     return storage
+
+def getAll():
+    return Storage.query.all()
+
+def delete_storage(storage_id):
+    # Find the storage record by its ID
+    storage = Storage.query.get(storage_id)
+
+    if storage is None:
+        raise ElementDoesNotExsist()
+
+    # Delete all items associated with the storage
+    # for item in storage.items:
+    #     db.session.delete(item)
+
+    # Delete the storage record
+    db.session.delete(storage)
+    
+    # Commit the changes to the database
+    db.session.commit()
+
+    return

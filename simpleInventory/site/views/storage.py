@@ -37,3 +37,8 @@ def create(storageID = None):
             error_message = str(ex)
 
     return render_template("storage/create.html", error_message=error_message, form_data = form_data, isActive = "readonly" if storageID else "")
+
+@storage_site.route("/all", methods=["GET"])
+def all():
+    storages = getAll()
+    return render_template("storage/all.html", storages = storages)
