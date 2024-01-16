@@ -76,18 +76,6 @@ input[type="submit"] {
     margin-top: 10px;
 }
 
-.button {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    text-align: center;
-    text-decoration: none;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
 
 .navbar {
     overflow: hidden;
@@ -109,62 +97,10 @@ input[type="submit"] {
     color: black;
 }
 
-.taskUpdate {
-    width: fit-content;
-    padding: 0px;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-bottom: 0px;
-    box-sizing: content-box;
-    font-size: medium;
+.navbar-right {
+    float: right;
 }
 
-.status-created {
-    color: blue; /* Change the color based on your preference */
-}
-.status-assigned {
-    color: green;
-}
-.status-work-in-progress {
-    color: orange;
-}
-.status-done {
-    color: purple;
-}
-.status-failed {
-    color: red;
-}
-
-.statusfield {
-    font-weight: bold;
-    width: fit-content;
-}
-
-.row {
-    display: flex; /* equal height of the children */
-}
-  
-.col {
-    flex: 1; /* additionally, equal width */
-
-    padding: 1em;
-}
-
-.form-inline {  
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-  }
-  
-  .form-inline label {
-    margin: 5px 10px 5px 0;
-  }
-  
-  .form-inline input {
-    vertical-align: middle;
-    margin: 1% 1% 1% 1%;
-
-  }
   
 .page-div {
     margin: 1%;
@@ -181,36 +117,10 @@ input[type="submit"] {
     margin: 1%;
 }
 
-/* Add this to your CSS */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    text-align: center;
-}
 
 .storage-div {
     background-color: #4caf50;
     margin: 10px;
     padding: 1em;
     display: inline-block;
-}
-
-a.fill-div {
-    display: block;
-    height: 100%;
-    width: 100%;
-    text-decoration: none;
 }
