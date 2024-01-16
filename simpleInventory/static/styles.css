@@ -58,18 +58,6 @@ input[type="submit"] {
     cursor: pointer;
 }
 
-.tasklink {
-    display: inline-block;
-    position: relative;
-    z-index: 1;
-    padding: 2em;
-    margin: -2em;
-  }
-
-.tasklink a:hover {
-    background-color: #4caf50;
-    color: aqua;
-}
 
 .error-message {
     color: red;
@@ -95,10 +83,6 @@ input[type="submit"] {
 .navbar a:hover {
     background-color: #ddd;
     color: black;
-}
-
-.navbar-right {
-    float: right;
 }
 
   
