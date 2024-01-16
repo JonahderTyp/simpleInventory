@@ -2,7 +2,8 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
+    background-color: #333333;
+    color: #fff;
     
     margin: 0;
     padding: 0;
@@ -13,9 +14,6 @@ body {
     margin: 0 auto;
 }
 
-h1 {
-    color: #333;
-}
 
 table {
     width: 100%;
@@ -67,7 +65,7 @@ input[type="submit"] {
 
 .navbar {
     overflow: hidden;
-    background-color: #333;
+    background-color: #666;
     width: 100%;
 }
 
@@ -85,7 +83,11 @@ input[type="submit"] {
     color: black;
 }
 
-  
+.navbar-right {
+    float: right;
+}
+
+
 .page-div {
     margin: 1%;
 }
@@ -102,9 +104,21 @@ input[type="submit"] {
 }
 
 
-.storage-div {
-    background-color: #4caf50;
+.clickable-div {
+    background-color: #5c5978;
+    color: #fff;
     margin: 10px;
     padding: 1em;
     display: inline-block;
 }
+
+.clickable-div:hover {
+    background-color: #000000;
+}
+
+a {
+    /* Remove the default link styling */
+    text-decoration: none;
+    color: inherit;
+    display: inline-block; /* Make the link take up the entire div */
+  }
