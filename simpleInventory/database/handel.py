@@ -1,54 +1,61 @@
 from . import db
-from .json_encoder import DatabaseEncoder
 from .db import Item, Storage
-from datetime import datetime as dt
-from .exceptions import *
+from .exceptions import ElementAlreadyExists, ElementDoesNotExsist
 from pprint import pprint
 from sqlalchemy import desc
-import logging
+from sqlalchemy.orm import joinedload
 
-def getItem(itemID):
-    return {"id":itemID, "name":"placeholder"}
-
-def getGrandStorage():
-    storages_without_parent = Storage.query.filter(Storage.parent_id == None).all()
-    return storages_without_parent
-
-def getChildStorages(parent_id):
-    # Query to find all child storages of the given parent storage
-    child_storages = Storage.query.filter_by(parent_id=parent_id).all()
-    return child_storages
-
-def createChildStorage(name, parent_id):
-    logging.debug(f"Creating Storage parent:{parent_id}, name:{name}")
-    child_storage = Storage(name=name, parent_id=parent_id)
-    db.session.add(child_storage)
+def create_storage(name, parent_id=None):
+    new_storage = Storage(name=name, parent_id=parent_id)
+    db.session.add(new_storage)
     db.session.commit()
-    return child_storage
-
-def getStorageByID(storage_id):
-    # Query the database for the Storage object with the specified id
-    storage = Storage.query.filter_by(id=storage_id).first()
-    return storage
-
-def getAll():
-    return Storage.query.all()
+    return new_storage
 
 def delete_storage(storage_id):
-    # Find the storage record by its ID
     storage = Storage.query.get(storage_id)
+    if storage and not storage.items.all() and all(not child.items.all() for child in storage.children):
+        db.session.delete(storage)
+        db.session.commit()
+        return True
+    return False
 
-    if storage is None:
-        raise ElementDoesNotExsist()
+def get_items_with_paths(storage_id):
+    items_with_paths = []
+    storage = Storage.query.options(joinedload(Storage.items)).get(storage_id)
 
-    # Delete all items associated with the storage
-    # for item in storage.items:
-    #     db.session.delete(item)
+    def get_path(storage, path=[]):
+        if storage.parent:
+            return get_path(storage.parent, [storage.name] + path)
+        else:
+            return [storage.name] + path
 
-    # Delete the storage record
-    db.session.delete(storage)
-    
-    # Commit the changes to the database
+    if storage:
+        for item in storage.items:
+            item_path = " -> ".join(get_path(storage))
+            items_with_paths.append((item.name, item_path))
+    return items_with_paths
+
+def create_item(name, description, storage_id):
+    new_item = Item(name=name, description=description, storage_id=storage_id)
+    db.session.add(new_item)
     db.session.commit()
+    return new_item
 
-    return
+def delete_item(item_id):
+    item = Item.query.get(item_id)
+    if item:
+        db.session.delete(item)
+        db.session.commit()
+        return True
+    return False
+
+def edit_item(item_id, name=None, description=None):
+    item = Item.query.get(item_id)
+    if item:
+        if name:
+            item.name = name
+        if description:
+            item.description = description
+        db.session.commit()
+        return item
+    return None
