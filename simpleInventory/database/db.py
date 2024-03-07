@@ -2,11 +2,15 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, event
 from datetime import datetime
+import typing
 
 db = SQLAlchemy()
 
-class myTable():
+class myTable:
     def get_model_dict(model):
+        """
+        Returns a dictionary representation of the model instance.
+        """
         return dict((column.name, getattr(model, column.name)) 
                     for column in model.__table__.columns)
 

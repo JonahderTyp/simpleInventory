@@ -1,6 +1,6 @@
 from .db import db, Item, Storage
 from .exceptions import ElementAlreadyExist, ElementDoesNotExist, ElementIsNotEmpty
-from typing import List
+from typing import List, Dict, Any
 
 
 def create_storage(name: str, parent_id: int | None = None) -> Storage:
@@ -70,8 +70,54 @@ def search_storages(query: str) -> List[Storage]:
         List[Storage]: A list of Storage objects that match the search query in their name.
     """
     search = f"%{query}%"
-    storages = Storage.query.filter(Storage.id.ilike(search) | Storage.name.ilike(search)).all()
+    storages = Storage.query.filter(Storage.id.ilike(
+        search) | Storage.name.ilike(search)).all()
     return storages
+
+
+def get_root_storages() -> List[Dict[str, Any]]:
+    """
+    Fetches all Storage records that do not have a parent.
+
+    :return: List of Storage instances that are root nodes (having no parent).
+    """
+    root_storages: List[Storage] = Storage.query.filter(
+        Storage.parent_id == None).all()
+    return [get_storage_hierarchy(i.id) for i in root_storages]
+
+
+def get_storage_hierarchy(storage_id: int) -> Dict[str, Any]:
+    """
+    Fetches a storage by its ID and returns its parent, the storage itself, and its children.
+
+    Args:
+    - storage_id (int): ID of the storage to find.
+
+    Returns:
+        Dict: Dictionary containing the parent, the storage itself, and its children.
+    """
+    storage: Storage
+    storage = Storage.query.get(storage_id)
+    if not storage:
+        raise ElementDoesNotExist
+
+    # Fetch parent
+    parent: Storage | None = None
+    if storage.parent_id:
+        parent = Storage.query.get(storage.parent_id)
+
+    # Fetch children
+    children: List[Storage] = Storage.query.filter_by(
+        parent_id=storage_id).all()
+
+    # Preparing the result with parent, self, and children information
+    result = {
+        "self": storage.get_model_dict(),
+        "parent": parent.get_model_dict() if parent else None,
+        "children": [child.get_model_dict() for child in children]
+    }
+
+    return result
 
 
 def create_item(name: str, description: str, storage_id: int | None = None) -> Item:
@@ -176,6 +222,7 @@ def search_items(query: str) -> List[Item]:
     """
     search = f"%{query}%"
     items = Item.query.filter(
-        (Item.id.ilike(search)) | (Item.name.ilike(search)) | (Item.description.ilike(search))
+        (Item.id.ilike(search)) | (Item.name.ilike(search)) | (
+            Item.description.ilike(search))
     ).all()
     return items
