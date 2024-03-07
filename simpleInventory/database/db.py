@@ -5,31 +5,46 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
-class Item(db.Model):
-    __tablename__ = 'Item'
+class myTable():
+    def get_model_dict(model):
+        return dict((column.name, getattr(model, column.name)) 
+                    for column in model.__table__.columns)
+
+class Item(db.Model, myTable):
+    __tablename__ = 'items'  # Use lowercase and plural form for table names
     id = Column(Integer, primary_key=True)
-    name = Column(String(255))
-    description = Column(Text)
-    storage_id = Column(Integer, ForeignKey('Storage.id', ondelete='SET NULL'), index=True)
+    name = Column(String(255), nullable=False)
+    description = Column(Text, nullable=True)
+    storage_id = Column(Integer, ForeignKey('storages.id'), nullable=False)
     storage = relationship('Storage', back_populates='items')
 
-class Storage(db.Model):
-    __tablename__ = 'Storage'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(255))  # Specify string length for consistency
-    parent_id = Column(Integer, ForeignKey('Storage.id', ondelete='SET NULL'), index=True)
-    parent = relationship('Storage', remote_side=[id], backref=backref('children', cascade='all, delete-orphan'))
-    items = relationship('Item', back_populates='storage', lazy='dynamic')  # Opt for lazy loading
+
+class Storage(db.Model, myTable):
+    __tablename__ = 'storages'  # Use lowercase and plural form for table names
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(255), nullable=False)
+    parent_id = Column(Integer, ForeignKey('storages.id'), nullable=True)
+    items = relationship('Item', back_populates='storage',
+                         cascade="all, delete-orphan")
+    parent = relationship('Storage', remote_side=[id], backref=backref(
+        'children', cascade='all, delete-orphan'))
+
 
 def before_delete(mapper, connection, target):
-    # Simplify to ensure all children's parent_id is set to None without explicit loop
-    db.session.query(Storage).filter(Storage.parent_id == target.id).update({'parent_id': None})
+    # Logic remains the same
+    for child in target.children:
+        child.parent_id = None
 
-@event.listens_for(Storage, 'before_insert')
+
 def validate_parent_id(mapper, connect, target):
-    if target.parent_id is not None:
-        exists = db.session.query(db.exists().where(Storage.id == target.parent_id)).scalar()
+    # Validate parent_id before insert
+    if target.parent_id:
+        exists = db.session.query(db.exists().where(
+            Storage.id == target.parent_id)).scalar()
         if not exists:
             raise ValueError(f"Parent ID {target.parent_id} does not exist")
-        
+
+
+# Register event listeners
 event.listen(Storage, 'before_delete', before_delete)
+event.listen(Storage, 'before_insert', validate_parent_id)

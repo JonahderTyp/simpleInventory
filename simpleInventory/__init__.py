@@ -27,8 +27,8 @@ def create_app():
 
     db.init_app(app)
 
-
-    from . import api, site
+    from .api import api
+    from .site import site
     app.register_blueprint(api)
     app.register_blueprint(site)
 

@@ -1,5 +1,8 @@
-class ElementAlreadyExists(Exception):
+class ElementAlreadyExist(Exception):
     pass
 
-class ElementDoesNotExsist(Exception):
+class ElementDoesNotExist(Exception):
+    pass
+
+class ElementIsNotEmpty(Exception):
     pass

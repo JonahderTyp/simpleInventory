@@ -1,6 +1,7 @@
 from pathlib import Path
 from simpleInventory import create_app
 from simpleInventory.database import db
+from .seeds import seed_data
 
 
 def pre_start():
@@ -10,8 +11,4 @@ def pre_start():
         if not db_path.is_file():
             print(f"Seeding database at {db_path.absolute()}")
             db.create_all()
-            seeds_path = app.config.get("FLASK_DB_SEEDS_PATH")
-            if Path.exists(seeds_path):
-                exec(open(seeds_path).read())
-            else:
-                print("Could not seed database because of a missing file")
+            seed_data()

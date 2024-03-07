@@ -32,28 +32,36 @@ th {
     background-color: #f2f2f2;
 }
 
-form {
+.page-form {
     margin-top: 20px;
 }
 
-label {
+.page-form>label {
     display: block;
     margin-bottom: 5px;
 }
 
-input, textarea {
-    width: 100%;
+.page-form>input, .page-form>textarea {
+    /* width: 100%; */
     padding: 8px;
     margin-bottom: 10px;
     box-sizing: border-box;
     font-size: x-large;
 }
 
-input[type="submit"] {
+.page-form>input[type="submit"] {
     background-color: #4caf50;
     margin-top: 10px;
     color: white;
     cursor: pointer;
+}
+
+.inline-form {
+    padding: 8px;
+}
+
+.inline-form>input {
+    padding: 8px;
 }
 
 

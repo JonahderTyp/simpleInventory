@@ -1,14 +1,15 @@
 from flask import Blueprint, render_template
-from .views import browse, search
+
+from .search import search
+from .browse import browse
 
 site = Blueprint("site", __name__, template_folder="templates")
 
 
-site.register_blueprint(browse.browse)
-site.register_blueprint(search.search)
+site.register_blueprint(browse)
+site.register_blueprint(search)
 
 
 @site.route("/")
 def index():
-    print("rendering main index")
     return render_template("index.html")
