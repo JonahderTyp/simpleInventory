@@ -1,11 +1,65 @@
 {% extends 'base.html' %}
 
-{% block title %}Overview{% endblock %}
+{% block title %}
+{% if storage %}{{ storage.name }}{%else%}Overview{%endif%}
+{% endblock %}
 
 {% block content %}
 <div class="page-div">
     <h1>Overview</h1>
+    {% if parent %}
+    <div>
+        <a href="{{ url_for('site.browse.look', storage_id=parent.id )}}">
+            <h1>{{ parent.name }} {{ parent }}</h1>
+        </a>
+
+    </div>
+    {%endif%}
+    {% if storage %}
+    <div>
+        <a href="{{ url_for('site.browse.look', storage_id=storage.id )}}">
+            <h1>{{ storage.name }} {{ storage }}</h1>
+        </a>
+    </div>
+    {%endif%}
+    {% if children %}
+    <div>
+        <h2>children</h2>
+        {%for storage in children%}
+        <div>
+            <a href="{{ url_for('site.browse.look', storage_id=storage.id )}}">
+                <h2>{{ storage.name }}</h2>
+            </a>
+        </div>
+        {%endfor%}
+
+    </div>
+    {%endif%}
+    <div>
+        <h2>items</h2>
+        <table>
+            <tr>
+                <th>
+                    name
+                </th>
+                <th>
+                    description
+                </th>
+            </tr>
+
+            {% for item in items%}
+            <tr>
+                <td>
+                    <a href="{{ url_for('site.item.showItem', itemID=item.id )}}">{{item.name}}</a>
+                </td>
+                <td>
+                    {{item.description}}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
 </div>
 
 {% endblock %}
-

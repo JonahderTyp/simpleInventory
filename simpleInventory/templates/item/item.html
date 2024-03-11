@@ -3,5 +3,19 @@
 {% block title %}Item via ID{% endblock %}
 
 {% block content %}
-item/item
+<div>
+    <h1>
+        {{ item.name }}
+    </h1>
+    <p>
+        {{ item.description }}
+    </p>
+    <div>
+        {% for way in path %}
+        > <a href="{{ url_for('site.browse.look', storage_id=way.id )}}">{{way.name}}</a>
+        {%endfor%}
+    </div>
+</div>
+
+
 {% endblock %}

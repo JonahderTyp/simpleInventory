@@ -24,4 +24,11 @@ class DatabaseEncoder(JSONEncoder):
             return obj.strftime("%Y-%m-%dT%H:%M:%S+00:00")
         elif isinstance(obj, date):
             return obj.strftime("%Y-%m-%d")
+        elif isinstance(obj, tuple):
+            raise TypeError()
+            return {'__tuple__': True, 'items': [self.default(e) for e in obj]}
+        elif isinstance(obj, list):
+            return [self.default(e) for e in obj]
+        elif isinstance(obj, dict):
+            return {key: self.default(value) for key, value in obj.items()}
         return JSONEncoder.default(self, obj)

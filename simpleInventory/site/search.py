@@ -9,5 +9,10 @@ def index():
     results = []
     query = request.args.get('query', None)
     if query is not None:
-        results = [i.get_model_dict() for  i in db.search_items(query)]
+        for item in db.search_items(query):
+            data = item.get_model_dict()
+            data.update({
+                "path":db.get_path_of_storage(db.get_storage_by_id(data.get('storage_id')))
+            })
+            results.append(data)
     return render_template("search/index.html", results=results)

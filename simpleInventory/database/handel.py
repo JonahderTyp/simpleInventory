@@ -1,6 +1,6 @@
 from .db import db, Item, Storage
 from .exceptions import ElementAlreadyExist, ElementDoesNotExist, ElementIsNotEmpty
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Tuple
 
 
 def create_storage(name: str, parent_id: int | None = None) -> Storage:
@@ -30,6 +30,17 @@ def create_storage(name: str, parent_id: int | None = None) -> Storage:
     db.session.add(new_storage)
     db.session.commit()
     return new_storage
+
+
+def get_all_storages() -> List[Dict[str, Any]]:
+    """
+    Retrieves all records from the Storage table.
+
+    :return: A list of dictionaries, each representing a storage record.
+    """
+    all_storages = Storage.query.all()
+    storages_list = [storage.get_model_dict() for storage in all_storages]
+    return storages_list
 
 
 def delete_storage(storage_id: int) -> bool:
@@ -74,8 +85,25 @@ def search_storages(query: str) -> List[Storage]:
         search) | Storage.name.ilike(search)).all()
     return storages
 
+def get_storage_by_id(storage_id: int) -> Storage:
+    """
+    Retrieve an Storage entity by its ID.
 
-def get_root_storages() -> List[Dict[str, Any]]:
+    Args:
+    - storageID (int): ID of the Storage to retrieve.
+
+    Returns:
+    - Storage: The retrieved Storage object.
+
+    Raises:
+    - ElementDoesNotExist: If no Storage with the specified ID exists.
+    """
+    storage = Storage.query.get(storage_id)
+    if not storage:
+        raise ElementDoesNotExist(f"Storage {storage_id} does not exitst.")
+    return storage
+
+def get_root_storages() -> List[Dict[str, Storage | List[Storage]]]:
     """
     Fetches all Storage records that do not have a parent.
 
@@ -86,7 +114,7 @@ def get_root_storages() -> List[Dict[str, Any]]:
     return [get_storage_hierarchy(i.id) for i in root_storages]
 
 
-def get_storage_hierarchy(storage_id: int) -> Dict[str, Any]:
+def get_storage_hierarchy(storage_id: int) -> Dict[str, Storage | List[Storage]]:
     """
     Fetches a storage by its ID and returns its parent, the storage itself, and its children.
 
@@ -96,8 +124,7 @@ def get_storage_hierarchy(storage_id: int) -> Dict[str, Any]:
     Returns:
         Dict: Dictionary containing the parent, the storage itself, and its children.
     """
-    storage: Storage
-    storage = Storage.query.get(storage_id)
+    storage = get_storage_by_id(storage_id)
     if not storage:
         raise ElementDoesNotExist
 
@@ -111,14 +138,32 @@ def get_storage_hierarchy(storage_id: int) -> Dict[str, Any]:
         parent_id=storage_id).all()
 
     # Preparing the result with parent, self, and children information
-    result = {
-        "self": storage.get_model_dict(),
-        "parent": parent.get_model_dict() if parent else None,
-        "children": [child.get_model_dict() for child in children]
-    }
+    # result = {
+    #     "self": storage.get_model_dict(),
+    #     "parent": parent.get_model_dict() if parent else None,
+    #     "children": [child.get_model_dict() for child in children]
+    # }
 
-    return result
+    return {"storage": storage, "parent": parent, "children": children}
 
+def get_path_of_storage(storage: Storage) -> List[Storage]:
+    """
+    Retrieves the path of storage IDs from the given storage ID up to the root.
+
+    :param storage_id: The ID of the starting storage.
+    :return: A list of storage IDs from the given storage up to the root.
+    """
+    if storage is None:
+        raise Exception
+
+    # Base case: if this storage has no parent, it's the root
+    if storage.parent_id is None:
+        return [storage]
+
+    # Recursive case: get the path from the parent, then append this storage's ID
+    path = get_path_of_storage(get_storage_by_id(storage.parent_id))
+    path.append(storage)
+    return path
 
 def create_item(name: str, description: str, storage_id: int | None = None) -> Item:
     """
@@ -187,6 +232,16 @@ def edit_item(item_id: int, name: str | None = None, description: str | None = N
         item.description = description
     db.session.commit()
     return item
+
+def get_items_by_storage(storage_id: int | None) -> List[Item]:
+    """
+    Retrieves all items belonging to a specific storage.
+
+    :param storage_id: The ID of the storage whose items are to be retrieved.
+    :return: A list of Item objects belonging to the specified storage.
+    """
+    items = Item.query.filter_by(storage_id=storage_id).all()
+    return items
 
 
 def delete_item(item_id: int) -> bool:

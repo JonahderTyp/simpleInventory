@@ -35,6 +35,10 @@ def search_storages_route():
     storages = db.search_storages(query=query)
     return jsonify(storages=[storage.get_model_dict() for storage in storages]), 200
 
+@api.route('/storages/table', methods=['GET'])
+def get_storage_table():
+    return jsonify(db.get_all_storages())
+
 
 @api.route('/items', methods=['POST'])
 def create_item_route():
