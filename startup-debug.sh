@@ -1,1 +1,1 @@
-gunicorn --bind 0.0.0.0:8000 -w 1 --reload 'simpleInventory:create_app()'
+gunicorn --bind 0.0.0.0:8001 -w 1 --reload 'simpleInventory:create_app()'

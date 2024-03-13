@@ -1,7 +1,8 @@
-from flask import render_template, Blueprint, request
-from ..database.db import Storage, Item
-from ..database.json_encoder import DatabaseEncoder
+from flask import render_template, Blueprint, request, abort
 from ..database import handel as db
+from ..database.db import Storage, Item
+from ..database.exceptions import ElementAlreadyExist, ElementDoesNotExist,ElementIsNotEmpty
+from ..database.json_encoder import DatabaseEncoder
 from typing import List
 from pprint import pprint
 
@@ -20,7 +21,10 @@ def index():
 
 @browse.route("/<int:storage_id>")
 def look(storage_id):
-    infos = DatabaseEncoder.default(db.get_storage_hierarchy(storage_id))
+    try:
+        infos = DatabaseEncoder.default(db.get_storage_hierarchy(storage_id))
+    except ElementDoesNotExist:
+        abort(404)
     items = db.get_items_by_storage(storage_id)
     return render_template("browse/index.html",
                            parent=infos['parent'],

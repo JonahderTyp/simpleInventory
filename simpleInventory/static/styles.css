@@ -4,7 +4,7 @@ body {
     font-family: 'Arial', sans-serif;
     background-color: #333333;
     color: #fff;
-    
+
     margin: 0;
     padding: 0;
 }
@@ -21,7 +21,8 @@ table {
     margin-top: 20px;
 }
 
-th, td {
+th,
+td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
@@ -41,7 +42,8 @@ th {
     margin-bottom: 5px;
 }
 
-.page-form>input, .page-form>textarea {
+.page-form>input,
+.page-form>textarea {
     /* width: 100%; */
     padding: 8px;
     margin-bottom: 10px;
@@ -102,11 +104,14 @@ th {
 
 
 .error-message {
-    background-color: #f8d7da; /* Light red background */
-    color: #721c24; /* Dark red text color */
+    background-color: #f8d7da;
+    /* Light red background */
+    color: #721c24;
+    /* Dark red text color */
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #f5c6cb; /* Dark red border */
+    border: 1px solid #f5c6cb;
+    /* Dark red border */
     border-radius: 5px;
     margin: 1%;
 }
@@ -128,5 +133,75 @@ a {
     /* Remove the default link styling */
     text-decoration: none;
     color: inherit;
-    display: inline-block; /* Make the link take up the entire div */
-  }
+    display: inline-block;
+    /* Make the link take up the entire div */
+}
+
+.file-browser {
+    margin: 0;
+    padding: 20px;
+}
+
+.top-bar {
+    display: flex;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.parent-folder-box {
+    width: 30%;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+    margin-right: 10px; /* Optional, adds a small gap between the two boxes */
+}
+
+.current-folder-box {
+    width: 70%;
+    background-color: #0056b3;
+    color: white;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.child-folders {
+    display: flex;
+    justify-content: start;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.child-folder {
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+.child-folder:hover {
+    background-color: #0056b3;
+}
+
+.items table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.items th,
+.items td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.items th {
+    background-color: #838383;
+}

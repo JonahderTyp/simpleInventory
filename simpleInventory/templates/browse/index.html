@@ -5,64 +5,45 @@
 {% endblock %}
 
 {% block content %}
-<div class="page-div">
-    <h1>Overview</h1>
-    {% if parent %}
-    <div>
-        <a href="{{ url_for('site.browse.look', storage_id=parent.id )}}">
-            <p><i class="fas fa-folder-arrow-up"></i> {{ parent.name }} {{ parent }}</p>
-        </a>
-
+<div class="file-browser">
+    <div class="top-bar">
+        {% if parent %}
+        <a href="{{ url_for('site.browse.look', storage_id=parent.id )}}" class="parent-folder-box">{{ parent.name
+            }}</a>
+        {% elif storage %}
+        <a href="{{ url_for('site.browse.index')}}" class="parent-folder-box">Browse</a>
+        {%endif%}
+        {% if storage %}
+        <div class="current-folder-box">{{ storage.name }}</div>
+        {%endif%}
     </div>
-    {%endif%}
-    {% if storage %}
-    <div>
-        <a href="{{ url_for('site.browse.look', storage_id=storage.id )}}">
-            <h1>{{ storage.name }} {{ storage }}</h1>
-        </a>
+
+    <div class="child-folders">
+        {% for folder in children %}
+        <a href="{{ url_for('site.browse.look', storage_id=folder.id )}}" class="child-folder">{{ folder.name }}</a>
+        {% endfor %}
     </div>
-    {%endif%}
-    <h1></h1>
-    {% if children %}
-    <div>
-        <h2>children</h2>
-        <div class="folders">
-            {%for storage in children%}
 
-            <a href="{{ url_for('site.browse.look', storage_id=storage.id )}}">
-                <p><i class="fas fa-folder-open"></i> {{ storage.name }}</p>
-            </a>
-
-            {%endfor%}
-        </div>
-
-    </div>
-    {%endif%}
-    <div>
-        <h2>items</h2>
+    <div class="items">
         <table>
-            <tr>
-                <th>
-                    name
-                </th>
-                <th>
-                    description
-                </th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
 
-            {% for item in items%}
-            <tr>
-                <td>
-                    <a href="{{ url_for('site.item.showItem', itemID=item.id )}}">{{item.name}}</a>
-                </td>
-                <td>
-                    {{item.description}}
-                </td>
-            </tr>
-            {% endfor %}
+                <tr onclick="window.location='{{ url_for('site.item.showItem', itemID=item.id )}}';">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.description }}</td>
+                </tr>
+
+                {% endfor %}
+            </tbody>
         </table>
     </div>
-
 </div>
 
 {% endblock %}

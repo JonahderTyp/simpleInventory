@@ -25,12 +25,17 @@ def create_storage_tree(parent_id=None, layer=1, max_layers=5):
     """
     if layer > max_layers:
         return
-    for i in range(3):  # Create 3 storages per layer
-        storage_name = f"Storage Layer {layer} - Storage {i + 1}"
+
+    layer_names = ["Zimmer", "Schrank", "Fach", "Box", "Hülle"]
+    item_names = ["Buch", "Dokument", "Werkzeug"]
+
+    for i in range(2):  # Create 2 storages per layer
+        storage_name = f"{layer_names[layer - 1]} {i + 1}"
         storage = add_storage(storage_name, parent_id=parent_id)
-        for j in range(3):  # Add 3 items to each storage
-            item_name = f"Item for {storage_name} - Item {j + 1}"
-            add_item(item_name, f"Description for {item_name}", storage)
+        for j in range(2):  # Add 2 items to each storage
+            item_name = f"{item_names[(i + j) % len(item_names)]} für {storage_name} Nr. {j + 1}"
+            description = f"Beschreibung für {item_name}"
+            add_item(item_name, description, storage)
         create_storage_tree(storage.id, layer + 1, max_layers)
 
 
