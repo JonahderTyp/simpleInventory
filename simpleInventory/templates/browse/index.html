@@ -10,7 +10,7 @@
     {% if parent %}
     <div>
         <a href="{{ url_for('site.browse.look', storage_id=parent.id )}}">
-            <h1>{{ parent.name }} {{ parent }}</h1>
+            <p><i class="fas fa-folder-arrow-up"></i> {{ parent.name }} {{ parent }}</p>
         </a>
 
     </div>
@@ -22,16 +22,19 @@
         </a>
     </div>
     {%endif%}
+    <h1></h1>
     {% if children %}
     <div>
         <h2>children</h2>
-        {%for storage in children%}
-        <div>
+        <div class="folders">
+            {%for storage in children%}
+
             <a href="{{ url_for('site.browse.look', storage_id=storage.id )}}">
-                <h2>{{ storage.name }}</h2>
+                <p><i class="fas fa-folder-open"></i> {{ storage.name }}</p>
             </a>
+
+            {%endfor%}
         </div>
-        {%endfor%}
 
     </div>
     {%endif%}
