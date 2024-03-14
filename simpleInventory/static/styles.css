@@ -1,21 +1,67 @@
 /* static/styles.css */
 
+:root {
+    --background-color: #fff;
+    --border-color: #aaa;
+    --text-color: #444;
+
+    --clickable-background: #d2e1fe;
+    --clickable-text: #000;
+    --clickable-hover-backgound: #aec9ff;
+    --clickable-hover-text: #000;
+
+    --editable-background: #aab7d1;
+    --editable-text: #000;
+    --editable-hover-backgound: #6c81b0;
+    --editable-hover-text: #000;
+
+    --navbar-background: #ccc;
+    --navbar-hover-backgound: #eee;
+    --navbar-hover-text: #000;
+}
+
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #333333;
-    color: #fff;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
+    
 
     margin: 0;
     padding: 0;
 }
 
 .container {
-    width: 80%;
-    margin: 0 auto;
+    border-radius: 10px;
+    border-width: 1px;
+    border-style: solid;
+    padding: 50px;
+    /* margin: 50px; */
+
 }
 
+.clickable {
+    background-color: var(--clickable-background);
+    color: var(--clickable-text);
+}
 
-table {
+.clickable:hover {
+    background-color: var(--clickable-hover-backgound);
+    color: var(--clickable-hover-text);
+}
+
+.editable {
+    background-color: var(--editable-background);
+    color: var(--editable-text);
+}
+
+.editable:hover {
+    background-color: var(--editable-hover-backgound);
+    color: var(--editable-hover-text);
+    cursor: help;
+}
+
+/* table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
@@ -23,17 +69,12 @@ table {
 
 th,
 td {
-    border: 1px solid #ddd;
+    border: 5px solid;
     padding: 8px;
     text-align: left;
-}
+} */
 
-
-th {
-    background-color: #f2f2f2;
-}
-
-.page-form {
+/* .page-form {
     margin-top: 20px;
 }
 
@@ -44,7 +85,6 @@ th {
 
 .page-form>input,
 .page-form>textarea {
-    /* width: 100%; */
     padding: 8px;
     margin-bottom: 10px;
     box-sizing: border-box;
@@ -56,41 +96,41 @@ th {
     margin-top: 10px;
     color: white;
     cursor: pointer;
-}
+} */
 
-.inline-form {
+/* .inline-form {
     padding: 8px;
 }
 
 .inline-form>input {
     padding: 8px;
-}
+} */
 
 
-.error-message {
+/* .error-message {
     color: red;
     margin-top: 10px;
-}
+} */
 
 
 .navbar {
     overflow: hidden;
-    background-color: #666;
+    background-color: var(--navbar-background);
     width: 100%;
 }
 
-.navbar a {
+.navbar > a {
     float: left;
     display: block;
-    color: white;
+    color: var(--text-color);
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
 
-.navbar a:hover {
-    background-color: #ddd;
-    color: black;
+.navbar > a:hover {
+    background-color: var(--navbar-hover-backgound);
+    color: var(--navbar-hover-text);
 }
 
 .navbar-right {
@@ -98,44 +138,23 @@ th {
 }
 
 
-.page-div {
-    margin: 1%;
-}
-
-
-.error-message {
+/* .error-message {
     background-color: #f8d7da;
-    /* Light red background */
     color: #721c24;
-    /* Dark red text color */
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #f5c6cb;
-    /* Dark red border */
     border-radius: 5px;
     margin: 1%;
-}
+} */
 
 
-.clickable-div {
-    background-color: #5c5978;
-    color: #fff;
-    margin: 10px;
-    padding: 1em;
-    display: inline-block;
-}
 
-.clickable-div:hover {
-    background-color: #000000;
-}
-
-a {
-    /* Remove the default link styling */
+/* a {
     text-decoration: none;
     color: inherit;
     display: inline-block;
-    /* Make the link take up the entire div */
-}
+} */
 
 .file-browser {
     margin: 0;
@@ -150,8 +169,6 @@ a {
 
 .parent-folder-box {
     width: 30%;
-    background-color: #007bff;
-    color: white;
     text-decoration: none;
     padding: 10px;
     box-sizing: border-box;
@@ -161,8 +178,6 @@ a {
 
 .current-folder-box {
     width: 70%;
-    background-color: #0056b3;
-    color: white;
     padding: 10px;
     box-sizing: border-box;
     text-align: center;
@@ -177,17 +192,12 @@ a {
 }
 
 .child-folder {
-    background-color: #007bff;
-    color: white;
     text-decoration: none;
     padding: 10px 20px;
     border-radius: 20px;
     box-sizing: border-box;
 }
 
-.child-folder:hover {
-    background-color: #0056b3;
-}
 
 .items table {
     width: 100%;

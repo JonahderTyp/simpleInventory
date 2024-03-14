@@ -8,19 +8,19 @@
 <div class="file-browser">
     <div class="top-bar">
         {% if parent %}
-        <a href="{{ url_for('site.browse.look', storage_id=parent.id )}}" class="parent-folder-box">{{ parent.name
+        <a href="{{ url_for('site.browse.look', storage_id=parent.id )}}" class="parent-folder-box clickable">{{ parent.name
             }}</a>
         {% elif storage %}
-        <a href="{{ url_for('site.browse.index')}}" class="parent-folder-box">Browse</a>
+        <a href="{{ url_for('site.browse.index')}}" class="parent-folder-box clickable">Browse</a>
         {%endif%}
         {% if storage %}
-        <div class="current-folder-box">{{ storage.name }}</div>
+        <div class="current-folder-box editable">{{ storage.name }}</div>
         {%endif%}
     </div>
 
-    <div class="child-folders">
+    <div class="child-folders container">
         {% for folder in children %}
-        <a href="{{ url_for('site.browse.look', storage_id=folder.id )}}" class="child-folder">{{ folder.name }}</a>
+        <a href="{{ url_for('site.browse.look', storage_id=folder.id )}}" class="child-folder clickable">{{ folder.name }}</a>
         {% endfor %}
     </div>
 
@@ -41,6 +41,13 @@
                 </tr>
 
                 {% endfor %}
+                {% if not items %}
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        Keine Items
+                    </td>
+                </tr>
+                {%endif%}
             </tbody>
         </table>
     </div>
