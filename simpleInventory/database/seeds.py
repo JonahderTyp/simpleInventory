@@ -9,6 +9,7 @@ def add_storage(name, parent_id=None):
     db.session.commit()
     return storage
 
+
 def add_item(name, description, storage):
     item = Item(name=name, description=description, storage=storage)
     db.session.add(item)
@@ -39,7 +40,7 @@ def create_storage_tree(parent_id=None, layer=1, max_layers=5):
         create_storage_tree(storage.id, layer + 1, max_layers)
 
 
-def seed_data():
+def seed_database():
     """Seeds the database with initial test data."""
     print("seeding Data...")
     db.session.commit()  # Commit any pending transactions
@@ -56,12 +57,10 @@ def seed_data():
     # add_item('Item 1', 'Description for Item 1', storage1)
     # add_item('Item 2', 'Description for Item 2', storage2)
     # add_item('Item 3', 'Description for Item 3', storage3)
-    
+
     create_storage_tree()
 
     # Commit changes to database
     db.session.commit()
-    
-    print("Data seeded successfully.")
 
-    
+    print("Data seeded successfully.")
