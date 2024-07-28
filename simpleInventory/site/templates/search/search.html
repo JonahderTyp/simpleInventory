@@ -1,0 +1,59 @@
+{% extends 'index.html' %}
+
+{% block title %}Search Inventory{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Search</h1>
+    <div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        id
+                    </th>
+                    <th scope="col">
+                        name
+                    </th>
+                    <th scope="col">
+                        description
+                    </th>
+                    <th scope="col">
+                        path
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for result in results%}
+                <tr class='clickable-row' data-href="{{url_for('site.item.showItem', itemID=result.id)}}">
+                    <td scope="row">
+                        {{result.id}}
+                    </td>
+                    <td>
+                        {{result.name}}
+                    </td>
+                    <td>
+                        {{result.description}}
+                    </td>
+                    <td>
+                        {{result.path}}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const rows = document.querySelectorAll("tr[data-href]");
+        rows.forEach(row => {
+            row.addEventListener("click", () => {
+                window.location.href = row.getAttribute("data-href");
+            });
+        });
+    });
+</script>
+{% endblock %}
